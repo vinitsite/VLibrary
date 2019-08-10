@@ -8,7 +8,10 @@ import {
   Switch,
   Checkbox,
   Select,
-  Card
+  Card,
+  Row,
+  Descriptions,
+  Rate
 } from "antd";
 import "./App.css";
 
@@ -18,19 +21,21 @@ const { Option } = Select;
 class VLibrary extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       componentLoading: true,
-      listOfCategories: ["business", "lifestyle", "cooking"],
-      booksData: [
-        {
-          id: 1,
-          name: "Rich Dad Poor Dad",
-          category: "business",
-          author: "Robert Kiyosaki",
-          available: true,
-          rating: 4.5
+      enableFilter: false,
+      filterOptions: {
+        available: {
+          status: false
+        },
+        category: {
+          status: false,
+          value: ""
         }
-      ]
+      },
+      listOfCategories: this.props.categories,
+      booksData: this.props.data
     };
   }
   componentDidMount = () => {
@@ -38,45 +43,49 @@ class VLibrary extends React.Component {
       componentLoading: false
     });
   };
-  menu = (
-    <Menu>
-      <Menu.Item>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="http://www.alipay.com/"
-        >
-          1st menu item
-        </a>
-      </Menu.Item>
-      <Menu.Item>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="http://www.taobao.com/"
-        >
-          2nd menu item
-        </a>
-      </Menu.Item>
-      <Menu.Item>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="http://www.tmall.com/"
-        >
-          3rd menu item
-        </a>
-      </Menu.Item>
-    </Menu>
-  );
 
+  renderBookItem = data => {
+    let item = data.data;
+    return (
+      <Row key={item.id}>
+        <Descriptions title={"#" + item.id + " " + item.title}>
+          <Descriptions.Item label="Author">{item.author}</Descriptions.Item>
+          <Descriptions.Item label="Category">
+            {item.category}
+          </Descriptions.Item>
+          <Descriptions.Item label="Rating">
+            <Rate disabled defaultValue={item.rating} allowHalf />
+          </Descriptions.Item>
+          <Descriptions.Item label="Available">
+            {item.available ? "Yes" : "No"}
+          </Descriptions.Item>
+        </Descriptions>
+      </Row>
+    );
+  };
+
+  filerBooks = book => {
+    const { enableFilter, filterOptions } = this.state;
+
+    if (enableFilter) {
+      if (filterOptions.available.status) {
+        if (!book.available) return false;
+      }
+      if (filterOptions.category.status) {
+        if (book.category !== filterOptions.category.value) return false;
+      }
+    }
+    return true;
+  };
   render = () => {
     const { componentLoading } = this.state;
     if (componentLoading) {
       return <Spin tip="Setting Up Things ..."> </Spin>;
     }
-    const { booksData, listOfCategories } = this.state;
+    var { booksData, listOfCategories } = this.state;
     const { title } = this.props;
+
+    booksData = booksData.filter(this.filerBooks);
 
     return (
       <Layout>
@@ -86,11 +95,31 @@ class VLibrary extends React.Component {
         <Layout>
           <Sider style={styles.sider}>
             <h4>
-              Enable Filter <Switch defaultChecked size="small" />{" "}
+              Enable Filter
+              <Switch
+                onChange={() => {
+                  this.setState({
+                    enableFilter: !this.state.enableFilter
+                  });
+                }}
+                size="small"
+              />
             </h4>
             <Menu>
               <Menu.Item>
-                <Checkbox> Is Available </Checkbox>
+                <Checkbox
+                  onChange={value => {
+                    let { filterOptions } = this.state;
+
+                    filterOptions.available.status = value;
+
+                    this.setState({
+                      filterOptions: filterOptions
+                    });
+                  }}
+                >
+                  Is Available
+                </Checkbox>
               </Menu.Item>
               <Menu.Item>
                 <Select
@@ -98,10 +127,15 @@ class VLibrary extends React.Component {
                   style={{ width: 200 }}
                   placeholder="Select Category"
                   optionFilterProp="children"
-                  // onChange={onChange}
-                  // onFocus={onFocus}
-                  // onBlur={onBlur}
-                  // onSearch={onSearch}
+                  onChange={value => {
+                    let { filterOptions } = this.state;
+                    filterOptions.category.status = true;
+                    filterOptions.category.value = value;
+
+                    this.setState({
+                      filterOptions: filterOptions
+                    });
+                  }}
                   filterOption={(input, option) =>
                     option.props.children
                       .toLowerCase()
@@ -115,14 +149,13 @@ class VLibrary extends React.Component {
                 ,
               </Menu.Item>
             </Menu>
-            <Dropdown overlay={this.menu}>
-              <a className="ant-dropdown-link" href="#">
-                Hover me <Icon type="down" />
-              </a>
-            </Dropdown>
           </Sider>
           <Content style={styles.content}>
-            <Card title="list of Books">content</Card>
+            <Card title="List Of Books">
+              {booksData.map((item, i) => (
+                <this.renderBookItem key={item.id} data={item} />
+              ))}
+            </Card>
           </Content>
         </Layout>
         <Footer>
@@ -142,7 +175,7 @@ class VLibrary extends React.Component {
 
 const styles = {
   sider: {
-    padding: 20,
+    padding: 10,
     backgroundColor: "#fff",
     minWidth: 250,
     width: "30%"
