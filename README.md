@@ -1,68 +1,81 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### About the VLibrary Component
 
-## Available Scripts
+The VLibrary Component takes to props
 
-In the project directory, you can run:
+1. data (Array) (required)
+2. categories (Array) (required)
 
-### `npm start`
+### Sample Data
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Sample Books Data Array
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+[
+{
+id: 1,
+title: "Rich Dad Poor Dad",
+category: "business",
+author: "Robert Kiyosaki",
+available: true,
+rating: 4.5
+},
+{
+id: 2,
+title: "The Great Gatsby",
+category: "business",
+author: "F. Scott Fitzgerald",
+available: false,
+rating: 4.8
+},
+{
+id: 3,
+title: "Some Cooking Book",
+category: "cooking",
+author: "Harper Lee",
+available: true,
+rating: 3
+},
+{
+id: 4,
+title: "Some LifeStyle Book",
+category: "lifestyle",
+author: "J.K. Rowling",
+available: true,
+rating: 4.5
+},
+{
+id: 5,
+title: "1984",
+category: "business",
+author: "George Orwell",
+available: true,
+rating: 4.5
+},
+{
+id: 6,
+title: "The Catcher in the Rye",
+category: "business",
+author: "J.D. Salinger",
+available: true,
+rating: 4.5
+},
+{
+id: 7,
+title: "The Hobbit",
+category: "business",
+author: "J.R.R. Tolkien",
+available: true,
+rating: 4.5
+},
+{
+id: 8,
+title: "Fahrenheit 451",
+category: "business",
+author: "Ray Bradbury",
+available: true,
+rating: 4.5
+}
+]
 
-### `npm test`
+## Sample Categories Array
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+["business", "lifestyle", "cooking"]
