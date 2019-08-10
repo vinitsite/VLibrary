@@ -1,17 +1,29 @@
 import React from "react";
-import { Spin, Dropdown, Menu, Icon, Layout } from "antd";
+import {
+  Spin,
+  Dropdown,
+  Menu,
+  Icon,
+  Layout,
+  Switch,
+  Checkbox,
+  Select,
+  Card
+} from "antd";
 import "./App.css";
 
 const { Header, Footer, Sider, Content } = Layout;
+const { Option } = Select;
 
 class VLibrary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       componentLoading: true,
-      listOfCategories: [],
+      listOfCategories: ["business", "lifestyle", "cooking"],
       booksData: [
         {
+          id: 1,
           name: "Rich Dad Poor Dad",
           category: "business",
           author: "Robert Kiyosaki",
@@ -63,7 +75,7 @@ class VLibrary extends React.Component {
     if (componentLoading) {
       return <Spin tip="Setting Up Things ..."> </Spin>;
     }
-    const { booksData } = this.state;
+    const { booksData, listOfCategories } = this.state;
     const { title } = this.props;
 
     return (
@@ -73,13 +85,45 @@ class VLibrary extends React.Component {
         </Header>
         <Layout>
           <Sider style={styles.sider}>
+            <h4>
+              Enable Filter <Switch defaultChecked size="small" />{" "}
+            </h4>
+            <Menu>
+              <Menu.Item>
+                <Checkbox> Is Available </Checkbox>
+              </Menu.Item>
+              <Menu.Item>
+                <Select
+                  showSearch
+                  style={{ width: 200 }}
+                  placeholder="Select Category"
+                  optionFilterProp="children"
+                  // onChange={onChange}
+                  // onFocus={onFocus}
+                  // onBlur={onBlur}
+                  // onSearch={onSearch}
+                  filterOption={(input, option) =>
+                    option.props.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {listOfCategories.map((item, i) => (
+                    <Option value={item}>{item}</Option>
+                  ))}
+                </Select>
+                ,
+              </Menu.Item>
+            </Menu>
             <Dropdown overlay={this.menu}>
               <a className="ant-dropdown-link" href="#">
                 Hover me <Icon type="down" />
               </a>
             </Dropdown>
           </Sider>
-          <Content style={styles.content}>Content</Content>
+          <Content style={styles.content}>
+            <Card title="list of Books">content</Card>
+          </Content>
         </Layout>
         <Footer>
           Developed By
@@ -98,7 +142,10 @@ class VLibrary extends React.Component {
 
 const styles = {
   sider: {
-    padding: 20
+    padding: 20,
+    backgroundColor: "#fff",
+    minWidth: 250,
+    width: "30%"
   },
   content: {
     padding: 30
