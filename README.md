@@ -4,6 +4,7 @@ The VLibrary Component takes to props
 
 1. data (Array) (required)
 2. categories (Array) (required)
+3. title (String) (required)
 
 ### Sample Data
 
